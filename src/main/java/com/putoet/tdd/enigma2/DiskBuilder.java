@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DiskBuilder {
-	private final List<LetterPair> pairs = new LinkedList<LetterPair>();
+	private final List<LetterPair> pairs = new LinkedList<>();
 	
 	public int size() {
 		return pairs.size();

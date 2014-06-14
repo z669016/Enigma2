@@ -2,9 +2,6 @@ package com.putoet.tdd.enigma2;
 
 public class Oracle {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		InputOutput io = new InputOutput("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 		Reflector reflector = new Reflector("ABCDEFGDIJKGMKMIEBFTCVVJAT");

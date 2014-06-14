@@ -59,8 +59,8 @@ public class EnigmaMachine {
 	}
 
 	private int backward(int offset) {
-		for (int idx = 0; idx < disks.length; idx++) {
-			offset = disks[idx].backward(offset);
+		for (Disk disk : disks) {
+			offset = disk.backward(offset);
 		}
 		return offset;
 	}

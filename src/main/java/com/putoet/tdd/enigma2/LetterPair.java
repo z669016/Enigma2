@@ -35,11 +35,9 @@ public class LetterPair {
 
 	@Override
 	public boolean equals(Object other) {
-		if (other instanceof LetterPair) {
-			return (left == ((LetterPair) other).left)
-					&& (right == ((LetterPair) other).right)
-					&& (notch == ((LetterPair) other).notch);
-		}
-		return false;
+		return (other instanceof LetterPair)
+                && (left == ((LetterPair) other).left)
+				&& (right == ((LetterPair) other).right)
+				&& (notch == ((LetterPair) other).notch);
 	}
 }
