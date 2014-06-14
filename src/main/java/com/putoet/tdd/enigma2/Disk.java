@@ -2,12 +2,9 @@ package com.putoet.tdd.enigma2;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Disk {
-	private interface Finder {
-		boolean equals(LetterPair pair);
-	}
-	
 	private final List<LetterPair> pairs;
 	
 	protected Disk(List<LetterPair> pairs) {
@@ -17,10 +14,13 @@ public class Disk {
 	public int size() {
 		return pairs.size();
 	}
-	
-	public LetterPair head() {
-		return pairs.get(0);
-	}
+
+    public LetterPair head() {
+        return pairs.get(0);
+    }
+    public String headLetter() {
+        return String.valueOf(pairs.get(0).left());
+    }
 
 	public LetterPair get(int offset) {
 		return pairs.get(offset);
@@ -43,26 +43,18 @@ public class Disk {
 	}
 
 	public int rightIndexOf(final char right) {
-		return indexOf(new Finder() {
-			public boolean equals(LetterPair pair) {
-				return pair.right() == right;
-			}
-		});
+		return indexOf(pair -> pair.right() == right);
 	}
 
 	public int leftIndexOf(final char left) {
-		return indexOf(new Finder() {
-			public boolean equals(LetterPair pair) {
-				return pair.left() == left;
-			}
-		});
+		return indexOf(pair -> pair.left() == left);
 	}
 	
-	private int indexOf(Finder finder) {
+	private int indexOf(Predicate<LetterPair> finder) {
 		Iterator<LetterPair> pairIterator = pairs.iterator();
 		int idx = 0;
 		while (pairIterator.hasNext()) {
-			if (finder.equals(pairIterator.next())) {
+			if (finder.test(pairIterator.next())) {
 				return idx;
 			}
 			idx++;

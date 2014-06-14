@@ -1,5 +1,8 @@
 package com.putoet.tdd.enigma2;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class EnigmaMachine {
 	private final InputOutput io;
 	private final Reflector reflector;
@@ -15,32 +18,27 @@ public class EnigmaMachine {
 
 	private void validate(InputOutput io, Reflector reflector, Disk... disks) {
 		assert io.size() == reflector.size();
-		for (int idx = 0; idx < disks.length; idx++) {
-			assert io.size() == disks[idx].size();
+		for (Disk disk : disks) {
+			assert io.size() == disk.size();
 		}
 	}
 
 	public String encode(String text) {
-		StringBuilder encodedText = new StringBuilder();
-		for (int idx = 0; idx < text.length(); idx++) {
-			encodedText.append(encode(text.charAt(idx)));
-		}
-		return encodedText.toString();
+        return text.chars().mapToObj(c -> encode((char) c)).collect(Collectors.joining());
 	}
 
-	private Character encode(char characterToEncode) {
-		return (characterToEncode == ' ') ? characterToEncode
-				: encodeNonBlank(characterToEncode);
+	private String encode(char characterToEncode) {
+		return (characterToEncode == ' ') ? " ": encodeNonBlank(characterToEncode);
 	}
 
-	private Character encodeNonBlank(char characterToEncode) {
+	private String encodeNonBlank(char characterToEncode) {
 		shift();
 		int offset = io.indexOf(characterToEncode);
 		offset = forward(offset);
 		offset = reflector.reflect(offset);
 		offset = backward(offset);
 
-		return io.characterOf(offset);
+		return String.valueOf(io.characterOf(offset));
 	}
 
 	private void shift() {
@@ -68,10 +66,6 @@ public class EnigmaMachine {
 	}
 
 	protected String head() {
-		StringBuilder heads = new StringBuilder();
-		for (Disk disk : disks) {
-			heads.append(disk.head().left());
-		}
-		return heads.toString();
+        return Arrays.stream(disks).map(Disk::headLetter).collect(Collectors.joining());
 	}
 }
